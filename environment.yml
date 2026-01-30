@@ -6,6 +6,12 @@ dependencies:
 
   # Everyone wants to use nbgitpuller for everything, so let's do that
   - nbgitpuller
+  # Code server is a VS Code like editor for the browser
+  - code-server>=4.0
+  # Jupyter-vscode-proxy is a proxy for the code server
+  - jupyter-vscode-proxy
+  # Jupyter-server-proxy is a proxy for the jupyter server
+  - jupyter-server-proxy
   # Install packages from pip
   - pip
   - pip:

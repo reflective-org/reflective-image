@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Define packages
+declare -a packages=( ms-python.python svelte.svelte-vscode )
+
+# Install them
+for package in "${packages[@]}"
+do
+  echo code-server --install-extension "${package}"
+done

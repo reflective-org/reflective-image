@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Set proxy URI template
+export VSCODE_PROXY_URI="../proxy/absolute/{{port}}/"
+
+# Start true entrypoint
+exec "$@"

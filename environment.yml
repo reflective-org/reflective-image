@@ -12,9 +12,10 @@ dependencies:
   - jupyter-vscode-proxy
   # Jupyter-server-proxy is a proxy for the jupyter server
   - jupyter-server-proxy
-  # Jupyter-ai is a package for AI-powered notebooks
-  - jupyter-ai[all]
   # Install packages from pip
   - pip
   - pip:
+    # Jupyter-ai is a package for AI-powered notebooks
+    # Installed via pip to avoid langchain/typer version conflicts with conda
+    - jupyter-ai[all]
     - globus-sdk

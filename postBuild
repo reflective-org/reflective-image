@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # Define packages
-declare -a packages=( ms-python.python svelte.svelte-vscode )
+declare -a packages=( ms-python.python svelte.svelte-vscode openai.chatgpt Anthropic.claude-code )
 
 # Install them
 for package in "${packages[@]}"

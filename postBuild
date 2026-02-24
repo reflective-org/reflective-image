@@ -4,9 +4,14 @@ set -euo pipefail
 
 # Define packages
 declare -a packages=( ms-python.python svelte.svelte-vscode openai.chatgpt anthropic.claude-code )
+target_user="${NB_USER:-jovyan}"
 
 # Install them
 for package in "${packages[@]}"
 do
-  echo code-server --install-extension "${package}"
+  if [ "$(id -u)" -eq 0 ] && [ "${target_user}" != "root" ]; then
+    su - "${target_user}" -c "code-server --install-extension ${package} --force"
+  else
+    code-server --install-extension "${package}" --force
+  fi
 done

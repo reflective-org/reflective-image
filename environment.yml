@@ -15,4 +15,7 @@ dependencies:
   # Install packages from pip
   - pip
   - pip:
+    # Jupyter-ai is a package for AI-powered notebooks
+    # Installed via pip to avoid langchain/typer version conflicts with conda
+    - jupyter-ai[all]
     - globus-sdk

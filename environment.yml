@@ -28,3 +28,9 @@ dependencies:
     - fsspec
     - boto3
     - botocore
+    # Upgrade beyond the pangeo-notebook base pins. Pin the versions to avoid breaking changes.
+    - xarray==2026.7.0
+    - zarr==3.2.1
+    - icechunk==2.1.1
+    # Issue creds is a package for issuing credentials to the user.
+    - issue-creds

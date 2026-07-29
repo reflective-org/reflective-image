@@ -31,4 +31,6 @@ dependencies:
     - xarray==2026.7.0
     - zarr==3.2.1
     - icechunk==2.1.1
+    # Compatible with icechunk>=2.0.6,<3 and zarr>=3.1,<4.
+    - arraylake==1.2.0
     - issue-creds

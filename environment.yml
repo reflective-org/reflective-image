@@ -21,16 +21,16 @@ dependencies:
     # Installed via pip to avoid langchain/typer version conflicts with conda
     - jupyter-ai[all]
     - globus-sdk
-    # Keep the S3 client stack aligned so s3fs works.
-    # These are intentionally installed after jupyter-ai extras to avoid
-    # transitive version drift between boto3/botocore/aiobotocore.
+    - pyopenssl>=24
     - s3fs
     - fsspec
+    - gcsfs        # gcsfs pins fsspec exactly; must upgrade together
     - boto3
     - botocore
-    # Upgrade beyond the pangeo-notebook base pins. Pin the versions to avoid breaking changes.
+    - notebook     # resolve against the jupyterlab jupyter-ai pulls in
     - xarray==2026.7.0
     - zarr==3.2.1
     - icechunk==2.1.1
-    # Issue creds is a package for issuing credentials to the user.
+    # Compatible with icechunk>=2.0.6,<3 and zarr>=3.1,<4.
+    - arraylake==1.2.0
     - issue-creds

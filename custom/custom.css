@@ -13,3 +13,13 @@
   height: 36px !important;
   object-fit: contain;
 }
+
+/* Static splash: keep the logo, drop the orbiting moons / animation. */
+#jupyterlab-splash #moon1,
+#jupyterlab-splash #moon2,
+#jupyterlab-splash #moon3,
+#jupyterlab-splash .orbit,
+#jupyterlab-splash .planet {
+  display: none !important;
+  animation: none !important;
+}

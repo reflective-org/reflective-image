@@ -1,0 +1,15 @@
+/* Enlarge the Reflective monogram in the JupyterLab top bar. */
+:root {
+  --jp-private-topbar-height: 36px;
+}
+
+#jp-MainLogo {
+  width: 36px !important;
+  height: 36px !important;
+}
+
+#jp-MainLogo img {
+  width: 36px !important;
+  height: 36px !important;
+  object-fit: contain;
+}

@@ -17,7 +17,8 @@ do
 done
 
 # Replace JupyterLab favicons with the Reflective monogram.
-favicon_src="/opt/reflective/images/Monogram-Yellow.png"
+# Use the cropped favicon so the mark fills more of the 16x16 tab icon.
+favicon_src="/opt/reflective/images/favicon.png"
 prefix="${NB_PYTHON_PREFIX:-/srv/conda/envs/notebook}"
 favicon_names=(
   favicon.ico

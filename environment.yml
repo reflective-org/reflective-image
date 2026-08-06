@@ -34,3 +34,4 @@ dependencies:
     # Compatible with icechunk>=2.0.6,<3 and zarr>=3.1,<4.
     - arraylake==1.2.0
     - issue-creds
+    - jupyterlab-branding-extension==1.0.36

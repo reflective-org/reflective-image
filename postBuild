@@ -15,3 +15,77 @@ do
     code-server --install-extension "${package}" --force
   fi
 done
+
+prefix="${NB_PYTHON_PREFIX:-/srv/conda/envs/notebook}"
+
+# Replace JupyterLab favicons with the Reflective monogram.
+# Use the cropped favicon so the mark fills more of the 16x16 tab icon.
+favicon_src="/opt/reflective/images/favicon.png"
+favicon_names=(
+  favicon.ico
+  favicon-busy-1.ico
+  favicon-busy-2.ico
+  favicon-busy-3.ico
+  favicon-file.ico
+  favicon-notebook.ico
+  favicon-terminal.ico
+)
+
+while IFS= read -r -d '' favicon_dir; do
+  for name in "${favicon_names[@]}"; do
+    target="${favicon_dir}/${name}"
+    if [[ -e "${target}" ]]; then
+      cp "${favicon_src}" "${target}"
+    fi
+  done
+done < <(find "${prefix}" \( -path '*/share/jupyter/lab/static/favicons' -o -path '*/share/jupyter/lab/static/base/images' -o -path '*/static/base/images' -o -path '*/static/favicons' \) -type d -print0 2>/dev/null)
+
+# custom.css loads too late for the splash. Patch the branding extension's
+# early splash <style> injection (module-load timing) to hide the moons.
+"${prefix}/bin/python" - <<'PY'
+from pathlib import Path
+import os
+
+prefix = Path(os.environ.get("NB_PYTHON_PREFIX", "/srv/conda/envs/notebook"))
+needle = "#jupyterlab-splash #main-logo > svg {\\n      display: none !important;\\n    }\\n  "
+extra = (
+    "#jupyterlab-splash #main-logo > svg {\\n"
+    "      display: none !important;\\n"
+    "    }\\n"
+    "    #jupyterlab-splash #moon1,\\n"
+    "    #jupyterlab-splash #moon2,\\n"
+    "    #jupyterlab-splash #moon3,\\n"
+    "    #jupyterlab-splash .orbit,\\n"
+    "    #jupyterlab-splash .planet {\\n"
+    "      display: none !important;\\n"
+    "      animation: none !important;\\n"
+    "    }\\n"
+    "  "
+)
+
+patched = 0
+candidates = [
+    prefix / "share/jupyter/labextensions/jupyterlab_branding_extension",
+]
+candidates.extend(prefix.glob("lib/python*/site-packages/jupyterlab_branding_extension"))
+
+seen = set()
+for root in candidates:
+    root = root.resolve()
+    if root in seen or not root.exists():
+        continue
+    seen.add(root)
+    for path in root.rglob("*.js"):
+        text = path.read_text(encoding="utf-8")
+        if needle not in text:
+            continue
+        if "#jupyterlab-splash #moon1" in text:
+            print(f"already patched: {path}")
+            continue
+        path.write_text(text.replace(needle, extra, 1), encoding="utf-8")
+        print(f"patched splash animation out of: {path}")
+        patched += 1
+
+if patched == 0:
+    raise SystemExit("Failed to patch branding extension splash JS (needle not found)")
+PY
